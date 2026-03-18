@@ -56,6 +56,7 @@ urlpatterns = [
     path('a_savenotes',v_admin.a_savenotes),
     path('a_viewnotes/',v_admin.a_viewnotes),
     path('a_removenotes/<int:notes_id>',v_admin.a_removenotes),
+    path('prediction/', v_admin.prediction_page, name='prediction'),
 
     #Teacher URL's
     path('teacherhome/', v_teacher.t_home),

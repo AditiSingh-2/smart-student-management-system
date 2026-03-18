@@ -1,9 +1,10 @@
-from django.contrib.auth import authenticate,login,logout
-from django.http.response import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render
 
+from django.shortcuts import render
 from django.contrib import messages
 from Main_App.EmailAuthentication import EmailAuth
+from django.contrib.auth import authenticate, login, logout
+from django.http.response import HttpResponse, HttpResponseRedirect
+
 
 # Create your views here.
 
@@ -28,7 +29,8 @@ def loginuser(request):
         else :
             messages.error(request,"Invalid login details..!")
             return HttpResponseRedirect("/loginpage")
-
 def logoutuser(request):
     logout(request)
     return HttpResponseRedirect('/')
+    
+   

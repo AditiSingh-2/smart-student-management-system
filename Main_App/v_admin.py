@@ -1,3 +1,18 @@
+import os
+import joblib
+from django.shortcuts import render
+from django.contrib import messages
+from Main_App.restrictions import is_authenticated, is_admin
+
+# Load ML model safely
+BASE_DIR = r"C:\Users\aditi\Desktop\Student_Management"
+model_path = os.path.join(BASE_DIR, "student_model.pkl")
+
+try:
+    model = joblib.load(model_path)
+except Exception as e:
+    model = None
+    print(f"ML model not loaded: {e}")
 #from django.contrib.auth import authenticate,login,logout
 from django.contrib import admin, messages
 from django.http.response import HttpResponse, HttpResponseRedirect
@@ -460,3 +475,26 @@ def a_removenotes(request,notes_id):
     except :
         messages.error(request,"Failed to delete note")
         return HttpResponseRedirect("/a_viewnotes")
+
+
+@is_authenticated
+@is_admin
+def prediction_page(request):
+    result = None
+
+    if request.method == "POST":
+        try:
+            attendance = int(request.POST.get("attendance"))
+            assignment = int(request.POST.get("assignment"))
+            test = int(request.POST.get("test"))
+
+            prediction = model.predict([[attendance, assignment, test]])
+
+            if prediction[0] == 1:
+                result = "Student likely to PASS"
+            else:
+                result = "Student at risk"
+
+        except Exception as e:
+            messages.error(request, f"Error in prediction: {e}")
+    return render(request, "admin/prediction.html", {"result": result, "error": error})
