@@ -5,7 +5,7 @@ from django.contrib import messages
 from Main_App.restrictions import is_authenticated, is_admin
 
 # Load ML model safely
-BASE_DIR = r"C:\Users\aditi\Desktop\Student_Management"
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 model_path = os.path.join(BASE_DIR, "student_model.pkl")
 
 try:
