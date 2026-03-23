@@ -1,105 +1,215 @@
 {% extends 'admin/a_base.html' %}
-
 {% block content %}
 <main class="content">
-				<div class="container-fluid p-0">
+    <div class="container-fluid p-0">
+        <div class="row mb-2 mb-xl-3">
+            <div class="col-auto d-none d-sm-block">
+                <h3><strong>Admin</strong> Dashboard</h3>
+            </div>
+        </div>
 
-					<div class="row mb-2 mb-xl-3">
-						<div class="col-auto d-none d-sm-block">
-							<h3><strong>Admin</strong> Dashboard</h3>
-						</div>
+        <!-- Department Stats Cards -->
+        <div class="row">
+            <div class="col-sm-6 col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title mb-4">Computer Science</h5>
+                        <h1 class="mt-1 mb-3">{{cs_count}}</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title mb-4">Information Technology</h5>
+                        <h1 class="mt-1 mb-3">{{it_count}}</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title mb-4">Electronics & Telecom</h5>
+                        <h1 class="mt-1 mb-3">{{entc_count}}</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title mb-4">Mechanical</h5>
+                        <h1 class="mt-1 mb-3">{{mech_count}}</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title mb-4">Civil</h5>
+                        <h1 class="mt-1 mb-3">{{civil_count}}</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-					
-					</div>
-					<div class="row">
-								<div class="row">
-									<div class="col-sm-6 col-lg-3">
-										<div class="card">
-											<div class="card-body">
-												<h5 class="card-title mb-4">Marathi</h5>
-												<h1 class="mt-1 mb-3">{{marathi_count}}</h1>
-											</div>
-										</div>
-									</div>
-									<div class="col-sm-6 col-lg-3">
-										<div class="card">
-											<div class="card-body">
-												<h5 class="card-title mb-4">Semi-Eng</h5>
-												<h1 class="mt-1 mb-3">{{semi_count}}</h1>
-											</div>
-										</div>
-									</div>
-									<div class="col-sm-6 col-lg-3">
-										<div class="card">
-											<div class="card-body">
-												<h5 class="card-title mb-4">CBSE</h5>
-												<h1 class="mt-1 mb-3">{{cbse_count}}</h1>
-											</div>
-										</div>
-									</div>
-									<div class="col-sm-6 col-lg-3">
-										<div class="card">
-											<div class="card-body">
-												<h5 class="card-title mb-4">Foundation</h5>
-												<h1 class="mt-1 mb-3">{{foundation_count}}</h1>
-											</div>
-										</div>
-									</div>
-								</div>
-					</div>
+        <!-- Year Stats Cards -->
+        <div class="row mt-3">
+            <div class="col-sm-6 col-lg-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title mb-4">First Year</h5>
+                        <h1 class="mt-1 mb-3">{{year1_count}}</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title mb-4">Second Year</h5>
+                        <h1 class="mt-1 mb-3">{{year2_count}}</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title mb-4">Third Year</h5>
+                        <h1 class="mt-1 mb-3">{{year3_count}}</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title mb-4">Fourth Year</h5>
+                        <h1 class="mt-1 mb-3">{{year4_count}}</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-					<div class="row">
-						<div class="col-12 d-flex">
-							<div class="card flex-fill w-100">
-								<div class="card-header">
-									<h5 class="card-title mb-0">Genderwise Student distribution</h5>
-								</div>
-								<div class="card-body d-flex">
-									<div class="align-self-center w-100">
-										<div class="py-3">
-											<div class="chart chart-xs">
-												<canvas id="genderwise_student_distribution"></canvas>
-											</div>
-										</div>
+        <!-- Gender Distribution Chart -->
+        <div class="row mt-3">
+            <div class="col-12 d-flex">
+                <div class="card flex-fill w-100">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Genderwise Student Distribution</h5>
+                    </div>
+                    <div class="card-body d-flex">
+                        <div class="align-self-center w-100">
+                            <div class="py-3">
+                                <div class="chart chart-xs">
+                                    <canvas id="genderwise_student_distribution"></canvas>
+                                </div>
+                            </div>
+                            <table class="table mb-0">
+                                <tbody>
+                                    <tr>
+                                        <td>Male</td>
+                                        <td class="text-right">{{male_count}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Female</td>
+                                        <td class="text-right">{{female_count}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Other</td>
+                                        <td class="text-right">{{other_count}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-										<table class="table mb-0">
-											<tbody>
-												<tr>
-													<td>Male</td>
-													<td class="text-right">{{male_count}}</td>
-												</tr>
-												<tr>
-													<td>Female</td>
-													<td class="text-right">{{female_count}}</td>
-												</tr>
-												<tr>
-													<td>Other</td>
-													<td class="text-right">{{other_count}}</td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
+        <!-- Department Distribution Chart -->
+        <div class="row mt-3">
+            <div class="col-12 d-flex">
+                <div class="card flex-fill w-100">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Departmentwise Student Distribution</h5>
+                    </div>
+                    <div class="card-body d-flex w-100">
+                        <div class="align-self-center chart chart-lg w-100">
+                            <canvas id="departmentwise_student_distribution"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-					<div class="row">
-						<div class="col-12 d-flex">
-							<div class="card flex-fill w-100">
-								<div class="card-header">
+        <!-- Yearwise Distribution Chart -->
+        <div class="row mt-3">
+            <div class="col-12 d-flex">
+                <div class="card flex-fill w-100">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Yearwise Student Distribution</h5>
+                    </div>
+                    <div class="card-body d-flex w-100">
+                        <div class="align-self-center chart chart-lg w-100">
+                            <canvas id="yearwise_student_distribution"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-									<h5 class="card-title mb-0">Standardwise Student distribution</h5>
-								</div>
-								<div class="card-body d-flex w-100">
-									<div class="align-self-center chart chart-lg">
-										<canvas id="standardwise_student_distribution"></canvas>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				
-				</div>
-			</main>
+    </div>
+</main>
+
+<!-- Chart JS Data -->
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+
+    // Gender Chart
+    var genderCtx = document.getElementById('genderwise_student_distribution').getContext('2d');
+    new Chart(genderCtx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Male', 'Female', 'Other'],
+            datasets: [{
+                data: [{{male_count}}, {{female_count}}, {{other_count}}],
+                backgroundColor: ['#4e73df', '#e74c3c', '#2ecc71']
+            }]
+        }
+    });
+
+    // Department Chart
+    var deptCtx = document.getElementById('departmentwise_student_distribution').getContext('2d');
+    new Chart(deptCtx, {
+        type: 'bar',
+        data: {
+            labels: ['CS', 'IT', 'ENTC', 'Mechanical', 'Civil'],
+            datasets: [{
+                label: 'Students',
+                data: [{{cs_count}}, {{it_count}}, {{entc_count}}, {{mech_count}}, {{civil_count}}],
+                backgroundColor: '#4e73df'
+            }]
+        },
+        options: {
+            scales: { y: { beginAtZero: true } }
+        }
+    });
+
+    // Year Chart
+    var yearCtx = document.getElementById('yearwise_student_distribution').getContext('2d');
+    new Chart(yearCtx, {
+        type: 'bar',
+        data: {
+            labels: ['First Year', 'Second Year', 'Third Year', 'Fourth Year'],
+            datasets: [{
+                label: 'Students',
+                data: [{{year1_count}}, {{year2_count}}, {{year3_count}}, {{year4_count}}],
+                backgroundColor: '#2ecc71'
+            }]
+        },
+        options: {
+            scales: { y: { beginAtZero: true } }
+        }
+    });
+
+});
+</script>
 {% endblock %}

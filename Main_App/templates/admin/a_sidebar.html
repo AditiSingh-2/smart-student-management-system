@@ -1,73 +1,133 @@
 <nav id="sidebar" class="sidebar">
-			<div class="sidebar-content js-simplebar">
-				<a class="sidebar-brand" href="/">
-          <span class="align-middle">Student Management</span>
+    <div class="sidebar-content js-simplebar">
+        <a class="sidebar-brand" href="/">
+            <span class="align-middle">Student Management</span>
         </a>
+        <ul class="sidebar-nav">
 
-				<ul class="sidebar-nav">
-					
+            <li class="sidebar-item active">
+                <a class="sidebar-link" href="/adminhome/">
+                    <i class="align-middle" data-feather="sliders"></i> <span class="align-middle">Dashboard</span>
+                </a>
+            </li>
 
-					<li class="sidebar-item active">
-						<a class="sidebar-link" href="/adminhome">
-              <i class="align-middle" data-feather="sliders"></i> <span class="align-middle">Dashboard</span>
-            </a>
-					</li>
+            <li class="sidebar-header">Menu</li>
 
-					<li class="sidebar-header">
-						Menu
-					</li>
+            <!-- Manage -->
+            <li class="sidebar-item">
+                <a data-target="#manage" data-toggle="collapse" class="sidebar-link collapsed">
+                    <i class="align-middle" data-feather="users"></i> <span class="align-middle">Manage</span>
+                </a>
+                <ul id="manage" class="sidebar-dropdown list-unstyled collapse" data-parent="#sidebar">
+                    <li class="sidebar-item"><a class="sidebar-link" href="/managestudent/">Student</a></li>
+                    <li class="sidebar-item"><a class="sidebar-link" href="/manageteacher/">Teacher</a></li>
+                </ul>
+            </li>
 
-					<li class="sidebar-item">
-						<a data-target="#manage" data-toggle="collapse" class="sidebar-link collapsed">
-              <i class="align-middle" data-feather="users"></i> <span class="align-middle">Manage</span>
-            			</a>
-						<ul id="manage" class="sidebar-dropdown list-unstyled collapse " data-parent="#sidebar">
-							<li class="sidebar-item"><a class="sidebar-link" href="/managestudent">Student</a></li>
-							<li class="sidebar-item"><a class="sidebar-link" href="/manageteacher">Teacher</a></li>
-						</ul>
-					</li>
+            <!-- Add -->
+            <li class="sidebar-item">
+                <a data-target="#add" data-toggle="collapse" class="sidebar-link collapsed">
+                    <i class="align-middle" data-feather="user-plus"></i> <span class="align-middle">Add</span>
+                </a>
+                <ul id="add" class="sidebar-dropdown list-unstyled collapse" data-parent="#sidebar">
+                    <li class="sidebar-item"><a class="sidebar-link" href="/addstudent/">Student</a></li>
+                    <li class="sidebar-item"><a class="sidebar-link" href="/addteacher/">Teacher</a></li>
+                </ul>
+            </li>
 
-					<li class="sidebar-item">
-						<a data-target="#add" data-toggle="collapse" class="sidebar-link collapsed">
-              <i class="align-middle" data-feather="user-plus"></i> <span class="align-middle">add</span>
-            			</a>
-						<ul id="add" class="sidebar-dropdown list-unstyled collapse " data-parent="#sidebar">
-							<li class="sidebar-item"><a class="sidebar-link" href="/addstudent">Students</a></li>
-							<li class="sidebar-item"><a class="sidebar-link" href="/addteacher">Teacher</a></li>
-						</ul>
-					</li>
+            <!-- Courses -->
+            <li class="sidebar-item">
+                <a data-target="#courses" data-toggle="collapse" class="sidebar-link collapsed">
+                    <i class="align-middle" data-feather="book"></i> <span class="align-middle">Courses</span>
+                </a>
+                <ul id="courses" class="sidebar-dropdown list-unstyled collapse" data-parent="#sidebar">
+                    <li class="sidebar-item"><a class="sidebar-link" href="/a_addcourse/">Add Course</a></li>
+                    <li class="sidebar-item"><a class="sidebar-link" href="/a_managecourse/">Manage Courses</a></li>
+                </ul>
+            </li>
 
-					<li class="sidebar-item">
-						<a data-target="#notification" data-toggle="collapse" class="sidebar-link collapsed">
-						<i class="align-middle" data-feather="bell"></i> <span class="align-middle">Notification</span>
-						</a>
-						<ul id="notification" class="sidebar-dropdown list-unstyled collapse " data-parent="#sidebar">
-							<li class="sidebar-item"><a class="sidebar-link" href="/a_addnotification">Add</a></li>
-							<li class="sidebar-item"><a class="sidebar-link" href="/managenotification">Manage</a></li>
-						</ul>
-					</li>
+            <!-- Attendance -->
+            <li class="sidebar-item">
+                <a data-target="#attendance" data-toggle="collapse" class="sidebar-link collapsed">
+                    <i class="align-middle" data-feather="check-square"></i> <span class="align-middle">Attendance</span>
+                </a>
+                <ul id="attendance" class="sidebar-dropdown list-unstyled collapse" data-parent="#sidebar">
+                    <li class="sidebar-item"><a class="sidebar-link" href="/a_viewattendance/">View Attendance</a></li>
+                </ul>
+            </li>
 
-					<li class="sidebar-item">
-						<a data-target="#result" data-toggle="collapse" class="sidebar-link collapsed">
-						<i class="align-middle" data-feather="folder"></i> <span class="align-middle">Results</span>
-						</a>
-						<ul id="result" class="sidebar-dropdown list-unstyled collapse " data-parent="#sidebar">
-							<li class="sidebar-item"><a class="sidebar-link" href="/a_addresult">Upload</a></li>
-							<li class="sidebar-item"><a class="sidebar-link" href="/a_viewresult">Delete</a></li>
-						</ul>
-					</li>
+            <!-- Marks -->
+            <li class="sidebar-item">
+                <a data-target="#marks" data-toggle="collapse" class="sidebar-link collapsed">
+                    <i class="align-middle" data-feather="edit-3"></i> <span class="align-middle">Marks</span>
+                </a>
+                <ul id="marks" class="sidebar-dropdown list-unstyled collapse" data-parent="#sidebar">
+                    <li class="sidebar-item"><a class="sidebar-link" href="/a_viewmarks/">View Marks</a></li>
+                </ul>
+            </li>
 
-					<li class="sidebar-item">
-						<a data-target="#notes" data-toggle="collapse" class="sidebar-link collapsed">
-						<i class="align-middle" data-feather="file-text"></i> <span class="align-middle">Notes</span>
-						</a>
-						<ul id="notes" class="sidebar-dropdown list-unstyled collapse " data-parent="#sidebar">
-							<li class="sidebar-item"><a class="sidebar-link" href="/a_addnotes">Upload</a></li>
-							<li class="sidebar-item"><a class="sidebar-link" href="/a_viewnotes">Delete</a></li>
-						</ul>
-					</li>
+            <!-- Exam Schedule -->
+            <li class="sidebar-item">
+                <a data-target="#exam" data-toggle="collapse" class="sidebar-link collapsed">
+                    <i class="align-middle" data-feather="calendar"></i> <span class="align-middle">Exam Schedule</span>
+                </a>
+                <ul id="exam" class="sidebar-dropdown list-unstyled collapse" data-parent="#sidebar">
+                    <li class="sidebar-item"><a class="sidebar-link" href="/a_addexam/">Add Exam</a></li>
+                    <li class="sidebar-item"><a class="sidebar-link" href="/a_viewexam/">View Exams</a></li>
+                </ul>
+            </li>
 
-				</ul>
+            <!-- Fee Status -->
+            <li class="sidebar-item">
+                <a data-target="#fees" data-toggle="collapse" class="sidebar-link collapsed">
+                    <i class="align-middle" data-feather="dollar-sign"></i> <span class="align-middle">Fee Status</span>
+                </a>
+                <ul id="fees" class="sidebar-dropdown list-unstyled collapse" data-parent="#sidebar">
+                    <li class="sidebar-item"><a class="sidebar-link" href="/a_addfee/">Add Fee</a></li>
+                    <li class="sidebar-item"><a class="sidebar-link" href="/a_viewfee/">View Fees</a></li>
+                </ul>
+            </li>
 
-			</div>
-		</nav>
+            <!-- Notification -->
+            <li class="sidebar-item">
+                <a data-target="#notification" data-toggle="collapse" class="sidebar-link collapsed">
+                    <i class="align-middle" data-feather="bell"></i> <span class="align-middle">Notification</span>
+                </a>
+                <ul id="notification" class="sidebar-dropdown list-unstyled collapse" data-parent="#sidebar">
+                    <li class="sidebar-item"><a class="sidebar-link" href="/a_addnotification/">Add</a></li>
+                    <li class="sidebar-item"><a class="sidebar-link" href="/managenotification/">Manage</a></li>
+                </ul>
+            </li>
+
+            <!-- Results -->
+            <li class="sidebar-item">
+                <a data-target="#result" data-toggle="collapse" class="sidebar-link collapsed">
+                    <i class="align-middle" data-feather="folder"></i> <span class="align-middle">Results</span>
+                </a>
+                <ul id="result" class="sidebar-dropdown list-unstyled collapse" data-parent="#sidebar">
+                    <li class="sidebar-item"><a class="sidebar-link" href="/a_addresult/">Upload</a></li>
+                    <li class="sidebar-item"><a class="sidebar-link" href="/a_viewresult/">View/Delete</a></li>
+                </ul>
+            </li>
+
+            <!-- Notes -->
+            <li class="sidebar-item">
+                <a data-target="#notes" data-toggle="collapse" class="sidebar-link collapsed">
+                    <i class="align-middle" data-feather="file-text"></i> <span class="align-middle">Notes</span>
+                </a>
+                <ul id="notes" class="sidebar-dropdown list-unstyled collapse" data-parent="#sidebar">
+                    <li class="sidebar-item"><a class="sidebar-link" href="/a_addnotes/">Upload</a></li>
+                    <li class="sidebar-item"><a class="sidebar-link" href="/a_viewnotes/">View/Delete</a></li>
+                </ul>
+            </li>
+
+            <!-- Prediction -->
+            <li class="sidebar-item">
+                <a class="sidebar-link" href="/prediction/">
+                    <i class="align-middle" data-feather="trending-up"></i> <span class="align-middle">Prediction</span>
+                </a>
+            </li>
+
+        </ul>
+    </div>
+</nav>

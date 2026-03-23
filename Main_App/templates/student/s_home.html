@@ -1,69 +1,177 @@
 {% extends 'student/s_base.html' %}
-
 {% block content %}
 <main class="content">
-	<div class="container-fluid p-0">
+    <div class="container-fluid p-0">
+        <div class="row mb-2 mb-xl-3">
+            <div class="col-auto d-none d-sm-block">
+                <h3>Welcome, <strong>{{student.admin.first_name}}</strong> 👋</h3>
+                <p class="text-muted">{{student.get_department_display}} | Year {{student.year}} | Section {{student.section}}</p>
+            </div>
+        </div>
 
-		<div class="row mb-2 mb-xl-3">
-			<div class="col-auto d-none d-sm-block">
-				<h3><strong>Student</strong> Dashboard</h3>
-			</div>
+        <!-- Attendance Warnings -->
+        {% for item in attendance_list %}
+            {% if item.warning %}
+                <div class="alert alert-danger alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <strong>⚠️ Low Attendance:</strong> Your attendance in <strong>{{item.course}}</strong> is <strong>{{item.percentage}}%</strong> — minimum required is 75%
+                </div>
+            {% endif %}
+        {% endfor %}
 
-		
-		</div>
-		<div class="row">
-					<div class="row">
-						<div class="col-sm-6 col-lg-3">
-							<div class="card">
-								<div class="card-body">
-									<h5 class="card-title mb-4">Marathi</h5>
-									<h1 class="mt-1 mb-3">{{marathi_count}}</h1>
-								</div>
-							</div>
-						</div>
-						<div class="col-sm-6 col-lg-3">
-							<div class="card">
-								<div class="card-body">
-									<h5 class="card-title mb-4">Semi-Eng</h5>
-									<h1 class="mt-1 mb-3">{{semi_count}}</h1>
-								</div>
-							</div>
-						</div>
-						<div class="col-sm-6 col-lg-3">
-							<div class="card">
-								<div class="card-body">
-									<h5 class="card-title mb-4">CBSE</h5>
-									<h1 class="mt-1 mb-3">{{cbse_count}}</h1>
-								</div>
-							</div>
-						</div>
-						<div class="col-sm-6 col-lg-3">
-							<div class="card">
-								<div class="card-body">
-									<h5 class="card-title mb-4">Foundation</h5>
-									<h1 class="mt-1 mb-3">{{foundation_count}}</h1>
-								</div>
-							</div>
-						</div>
-					</div>
-		</div>
+        <!-- Quick Stats Cards -->
+        <div class="row">
+            <div class="col-sm-6 col-lg-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title mb-4">Department</h5>
+                        <h4 class="mt-1 mb-3">{{student.get_department_display}}</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title mb-4">Year</h5>
+                        <h4 class="mt-1 mb-3">{{student.get_year_display}}</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title mb-4">Roll Number</h5>
+                        <h4 class="mt-1 mb-3">{{student.roll_number}}</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-3">
+                <div class="card">
+                    {% if fee %}
+                        <div class="card-body">
+                            <h5 class="card-title mb-4">Fee Status</h5>
+                            <h4 class="mt-1 mb-3
+                                {% if fee.status == 'Paid' %}text-success
+                                {% elif fee.status == 'Pending' %}text-danger
+                                {% else %}text-warning{% endif %}">
+                                {{fee.status}}
+                            </h4>
+                        </div>
+                    {% else %}
+                        <div class="card-body">
+                            <h5 class="card-title mb-4">Fee Status</h5>
+                            <h4 class="mt-1 mb-3 text-muted">N/A</h4>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
 
-		<div class="row">
-			<div class="col-12 d-flex">
-				<div class="card flex-fill w-100">
-					<div class="card-header">
+        <!-- Upcoming Exams -->
+        <div class="row mt-3">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">📅 Upcoming Exams (Next 7 Days)</h5>
+                    </div>
+                    <div class="card-body">
+                        {% if upcoming_exams %}
+                            <div class="table-responsive">
+                                <table class="table table-striped mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th>Course</th>
+                                            <th>Exam Type</th>
+                                            <th>Date</th>
+                                            <th>Time</th>
+                                            <th>Venue</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for exam in upcoming_exams %}
+                                        <tr>
+                                            <td>{{exam.course.name}}</td>
+                                            <td>{{exam.exam_type}}</td>
+                                            <td>{{exam.exam_date|date:"d M Y"}}</td>
+                                            <td>{{exam.start_time}} - {{exam.end_time}}</td>
+                                            <td>{{exam.venue}}</td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        {% else %}
+                            <p class="text-muted">No upcoming exams in the next 7 days.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
 
-						<h5 class="card-title mb-0">Standardwise Student distribution</h5>
-					</div>
-					<div class="card-body d-flex w-100">
-						<div class="align-self-center chart chart-lg">
-							<canvas id="standardwise_student_distribution"></canvas>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	
-	</div>
+        <!-- Attendance Summary -->
+        <div class="row mt-3">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">📊 Attendance Summary</h5>
+                    </div>
+                    <div class="card-body">
+                        {% if attendance_list %}
+                            <div class="table-responsive">
+                                <table class="table table-striped mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th>Course</th>
+                                            <th>Attendance %</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for item in attendance_list %}
+                                        <tr>
+                                            <td>{{item.course}}</td>
+                                            <td>{{item.percentage}}%</td>
+                                            <td>
+                                                {% if item.warning %}
+                                                    <span class="badge badge-danger">Low ⚠️</span>
+                                                {% else %}
+                                                    <span class="badge badge-success">Good ✅</span>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        {% else %}
+                            <p class="text-muted">No attendance records yet.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="row mt-3">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Quick Links</h5>
+                    </div>
+                    <div class="card-body">
+                        <a href="/s_viewattendance/" class="btn btn-primary mr-2">My Attendance</a>
+                        <a href="/s_viewmarks/" class="btn btn-primary mr-2">My Marks</a>
+                        <a href="/s_viewexams/" class="btn btn-primary mr-2">Exam Schedule</a>
+                        <a href="/s_viewfees/" class="btn btn-primary mr-2">Fee Status</a>
+                        <a href="/s_viewtimetable/" class="btn btn-primary mr-2">Timetable</a>
+                        <a href="/s_viewnotification/" class="btn btn-primary mr-2">Notifications</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
 </main>
 {% endblock %}

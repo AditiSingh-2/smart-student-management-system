@@ -18,9 +18,9 @@ def is_admin(func):
             if user.user_type == '1':
                 return func(request,*args,**kwargs)
             else:
-                return HttpResponse("<h3>You are not authorised to view this page</h3>")
-        except:
-            return HttpResponse("<h3>You are not authorised to view this page.</h3>")
+                return HttpResponse(f"<h3>Not admin - your user_type is: {user.user_type}</h3>")
+        except Exception as e:
+            return HttpResponse(f"<h3>Error: {str(e)}</h3>")
     return wrapper
 
 def is_teacher(func):

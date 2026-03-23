@@ -1,92 +1,101 @@
 {% extends 'student/s_base.html' %}
-
 {% block content %}
-
 <main class="content">
-				<div class="container-fluid p-0">
-					<div class="row mb-2 mb-xl-3">
-							<div class="col-auto">
-								<h3> Edit Profile </h3>
-							</div>
-					</div>
+    <div class="container-fluid p-0">
+        <div class="row mb-2 mb-xl-3">
+            <div class="col-auto">
+                <h3>Edit Profile</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                {% if messages %}
+                    <div class="alert alert-primary alert-dismissible" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <div class="alert-icon">
+                            <i data-feather="tag"></i>
+                        </div>
+                        <div class="alert-message">
+                            <strong>
+                            {% for message in messages %}
+                            {{message}}
+                            {% endfor %}
+                            </strong>
+                        </div>
+                    </div>
+                {% endif %}
+                <div class="card">
+                    <div class="card-body">
+                        <form action="/s_saveprofile/" method="POST">
+                        {% csrf_token %}
+                            <input type="hidden" value="{{student.admin.id}}" name="student_id">
 
-					<div class="row">
-						<div class="col-md-12">							
-								
-							{% if messages %}
-								<div class="alert alert-primary alert-dismissible" role="alert">
-									<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-										<span aria-hidden="true">&times;</span>
-									</button>
-									<div class="alert-icon">
-										<i data-feather="tag"></i>
-									</div>
-									<div class="alert-message">
-										<strong>
-										{% for message in messages  %}
-										{{message}}
-										{% endfor %}
-										</strong> 
-									</div>
-								</div>
-							{% endif %}
+                            <!-- Read only fields -->
+                            <div class="mb-3">
+                                <label class="form-label">Student Code</label>
+                                <input type="text" class="form-control" value="{{student.admin.username}}" disabled>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Roll Number</label>
+                                <input type="text" class="form-control" value="{{student.roll_number}}" disabled>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Department</label>
+                                <input type="text" class="form-control" value="{{student.get_department_display}}" disabled>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Year</label>
+                                <input type="text" class="form-control" value="{{student.get_year_display}}" disabled>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Section</label>
+                                <input type="text" class="form-control" value="{{student.section}}" disabled>
+                            </div>
 
-							<div class="card">
-								<div class="card-body">
-									<form action="/s_saveprofile" method="POST">
-									{% csrf_token %}
-										<div class="mb-3">
-											<label class="form-label">Student ID</label>
-											<input type="text" class="form-control" name="username" value="{{user.username}}" disabled>
-										</div>
-										<div class="mb-3">
-											<label class="form-label">Medium</label>
-											<input type="text" class="form-control" name="medium" value="{{user.student.medium}}" disabled>
-										</div>
-										<div class="mb-3">
-											<label class="form-label">Class</label>
-											<input type="text" class="form-control" name="class" value="{{user.student.std}}" disabled>
-										</div>
-										<div class="mb-3">
-											<label class="form-label">Email address</label>
-											<input type="email" class="form-control" placeholder="Email" name="email" value="{{user.email}}">
-											<input type="hidden" value="{{user.id}}" name="student_id">
-										</div>
-										<div class="mb-3">
-											<label class="form-label">First Name</label>
-											<input type="text" class="form-control" placeholder="First Name" name="firstname" value="{{user.first_name}}">
-										</div>
-										<div class="mb-3">
-											<label class="form-label">Last Name</label>
-											<input type="text" class="form-control" placeholder="Last Name" name="lastname" value="{{user.last_name}}">
-										</div>
-										<div class="mb-3">
-											<label class="form-label" for="gender">Gender</label>
-												<select id="gender" class="form-control" name="gender">
-													<option value="{{user.student.gender}}" hidden selected>{{user.student.gender}}</option>
-													{% for k,v in user.student.gender_choices %}
-													<option value={{k}}>{{v}}</option>
-													{% endfor %}
-												</select>
-										</div>
-										<div class="mb-3">
-											<label class="form-label">Address</label>
-											<input type="text" class="form-control" placeholder="Address" name="address" value="{{user.student.address}}">
-										</div>
-										<div class="mb-3">
-											<label class="form-label">Password</label>
-											<input type="text" class="form-control" placeholder="Fill if you want to change password" name="password" >
-										</div>
-										<div class="mb-3">
-										<button type="submit" class="form-control btn btn-primary">Update profile</button>
-										</div>
-									</form>
-								</div>
-							</div>
-						
-						</div>
-						
-			</main>
-
-
+                            <!-- Editable fields -->
+                            <div class="mb-3">
+                                <label class="form-label">Email Address</label>
+                                <input type="email" class="form-control" placeholder="Email" name="email" value="{{student.admin.email}}">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">First Name</label>
+                                <input type="text" class="form-control" placeholder="First Name" name="firstname" value="{{student.admin.first_name}}">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Last Name</label>
+                                <input type="text" class="form-control" placeholder="Last Name" name="lastname" value="{{student.admin.last_name}}">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Phone Number</label>
+                                <input type="text" class="form-control" placeholder="Phone Number" name="phone" value="{{student.phone}}">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="gender">Gender</label>
+                                <select id="gender" class="form-control" name="gender">
+                                    <option value="{{student.gender}}" hidden selected>{{student.gender}}</option>
+                                    {% for k,v in student.GENDER_CHOICES %}
+                                    <option value={{k}}>{{v}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Address</label>
+                                <input type="text" class="form-control" placeholder="Address" name="address" value="{{student.address}}">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">New Password</label>
+                                <input type="password" class="form-control" placeholder="Fill only if you want to change password" name="password">
+                            </div>
+                            <div class="mb-3">
+                                <button type="submit" class="form-control btn btn-primary">Update Profile</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
 {% endblock %}
