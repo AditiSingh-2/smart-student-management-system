@@ -1,0 +1,47 @@
+{% extends 'student/s_base.html' %}
+{% block content %}
+<main class="content">
+    <div class="container-fluid p-0">
+        <h1 class="h3 mb-3">My Timetable</h1>
+        <div class="col-12">
+            <div class="card">
+                <div class="table-responsive">
+                    <table class="table table-striped mb-0">
+                        <thead>
+                            <tr>
+                                <th>Day</th>
+                                <th>Course</th>
+                                <th>Course Code</th>
+                                <th>Start Time</th>
+                                <th>End Time</th>
+                                <th>Room</th>
+                                <th>Teacher</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for slot in timetable %}
+                            <tr>
+                                <td><strong>{{slot.get_day_display}}</strong></td>
+                                <td>{{slot.course.name}}</td>
+                                <td>{{slot.course.code}}</td>
+                                <td>{{slot.start_time}}</td>
+                                <td>{{slot.end_time}}</td>
+                                <td>{{slot.room}}</td>
+                                <td>
+                                    {{slot.course.teacher.admin.first_name}}
+                                    {{slot.course.teacher.admin.last_name}}
+                                </td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="7" class="text-center text-muted">No timetable found.</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

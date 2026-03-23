@@ -1,0 +1,52 @@
+{% extends 'student/s_base.html' %}
+{% block content %}
+<main class="content">
+    <div class="container-fluid p-0">
+        <h1 class="h3 mb-3">My Marks</h1>
+        <div class="col-12">
+            <div class="card">
+                <div class="table-responsive">
+                    <table class="table table-striped mb-0">
+                        <thead>
+                            <tr>
+                                <th>Course</th>
+                                <th>Course Code</th>
+                                <th>Exam Type</th>
+                                <th>Marks Obtained</th>
+                                <th>Max Marks</th>
+                                <th>Percentage</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for mark in marks %}
+                            <tr>
+                                <td>{{mark.course.name}}</td>
+                                <td>{{mark.course.code}}</td>
+                                <td>{{mark.get_exam_type_display}}</td>
+                                <td>{{mark.marks_obtained}}</td>
+                                <td>{{mark.max_marks}}</td>
+                                <td>
+                                    {% widthratio mark.marks_obtained mark.max_marks 100 %}%
+                                </td>
+                                <td>
+                                    {% if mark.marks_obtained >= mark.max_marks|floatformat:0 %}
+                                        <span class="badge badge-success">Pass ✅</span>
+                                    {% else %}
+                                        <span class="badge badge-danger">Needs Improvement ⚠️</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="7" class="text-center text-muted">No marks records found.</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

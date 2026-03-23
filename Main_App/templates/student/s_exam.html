@@ -1,0 +1,51 @@
+{% extends 'student/s_base.html' %}
+{% block content %}
+<main class="content">
+    <div class="container-fluid p-0">
+        <h1 class="h3 mb-3">Exam Schedule</h1>
+        <div class="col-12">
+            <div class="card">
+                <div class="table-responsive">
+                    <table class="table table-striped mb-0">
+                        <thead>
+                            <tr>
+                                <th>Course</th>
+                                <th>Course Code</th>
+                                <th>Exam Type</th>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>Venue</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for exam in exams %}
+                            <tr>
+                                <td>{{exam.course.name}}</td>
+                                <td>{{exam.course.code}}</td>
+                                <td>{{exam.exam_type}}</td>
+                                <td>{{exam.exam_date|date:"d M Y"}}</td>
+                                <td>{{exam.start_time}} - {{exam.end_time}}</td>
+                                <td>{{exam.venue}}</td>
+                                <td>
+                                    {% now "Y-m-d" as today %}
+                                    {% if exam.exam_date|date:"Y-m-d" >= today %}
+                                        <span class="badge badge-primary">Upcoming</span>
+                                    {% else %}
+                                        <span class="badge badge-secondary">Completed</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="7" class="text-center text-muted">No exam schedule found.</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

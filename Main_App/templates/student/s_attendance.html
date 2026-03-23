@@ -1,0 +1,48 @@
+{% extends 'student/s_base.html' %}
+{% block content %}
+<main class="content">
+    <div class="container-fluid p-0">
+        <h1 class="h3 mb-3">My Attendance</h1>
+        <div class="col-12">
+            <div class="card">
+                <div class="table-responsive">
+                    <table class="table table-striped mb-0">
+                        <thead>
+                            <tr>
+                                <th>Course</th>
+                                <th>Course Code</th>
+                                <th>Total Classes</th>
+                                <th>Present</th>
+                                <th>Attendance %</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for item in attendance_data %}
+                            <tr>
+                                <td>{{item.course.name}}</td>
+                                <td>{{item.course.code}}</td>
+                                <td>{{item.total}}</td>
+                                <td>{{item.present}}</td>
+                                <td>{{item.percentage}}%</td>
+                                <td>
+                                    {% if item.warning %}
+                                        <span class="badge badge-danger">Low ⚠️</span>
+                                    {% else %}
+                                        <span class="badge badge-success">Good ✅</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="6" class="text-center text-muted">No attendance records found.</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}
