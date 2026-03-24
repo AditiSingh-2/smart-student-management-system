@@ -1,0 +1,70 @@
+{% extends 'admin/a_base.html' %}
+{% block content %}
+<main class="content">
+    <div class="container-fluid p-0">
+        <h1 class="h3 mb-3">Add Course</h1>
+        <div class="row">
+            <div class="col-md-12">
+                {% if messages %}
+                    <div class="alert alert-primary alert-dismissible" role="alert">
+                        <button type="button" class="close" data-dismiss="alert">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <div class="alert-message">
+                            <strong>
+                            {% for message in messages %}{{message}}{% endfor %}
+                            </strong>
+                        </div>
+                    </div>
+                {% endif %}
+                <div class="card">
+                    <div class="card-body">
+                        <form action="/a_savecourse/" method="POST">
+                        {% csrf_token %}
+                            <div class="mb-3">
+                                <label class="form-label">Course Name</label>
+                                <input type="text" class="form-control" placeholder="e.g. Data Structures" name="name" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Course Code</label>
+                                <input type="text" class="form-control" placeholder="e.g. CS101" name="code" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Department</label>
+                                <select class="form-control" name="department" required>
+                                    <option value="" hidden>--Select--</option>
+                                    {% for k,v in departments %}
+                                    <option value="{{k}}">{{v}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Year</label>
+                                <select class="form-control" name="year" required>
+                                    <option value="" hidden>--Select--</option>
+                                    <option value="1">First Year</option>
+                                    <option value="2">Second Year</option>
+                                    <option value="3">Third Year</option>
+                                    <option value="4">Fourth Year</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Teacher</label>
+                                <select class="form-control" name="teacher" required>
+                                    <option value="" hidden>--Select--</option>
+                                    {% for teacher in teachers %}
+                                    <option value="{{teacher.id}}">{{teacher.admin.first_name}} {{teacher.admin.last_name}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <button type="submit" class="form-control btn btn-primary">Add Course</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

@@ -8,6 +8,7 @@ from django.contrib import admin
 from random import randint
 from datetime import date
 from django.conf import settings
+from Main_App.models import MyUser, Notes, Notification, Result, Teacher, Student, Course, ExamSchedule, FeeStatus, Attendance, InternalMarks
 
 from Main_App.restrictions import is_admin, is_authenticated
 from Main_App.models import MyUser, Notes, Notification, Result, Teacher, Student, Course
@@ -434,6 +435,182 @@ def a_removenotes(request, notes_id):
     except Exception as e:
         messages.error(request, f"Failed to delete note: {e}")
     return HttpResponseRedirect("/a_viewnotes/")
+
+@is_authenticated
+@is_admin
+def a_addcourse(request):
+    teachers = Teacher.objects.all()
+    departments = Course.DEPARTMENT_CHOICES
+    return render(request, 'admin/a_addcourse.html', {
+        'teachers': teachers,
+        'departments': departments
+    })
+
+@is_authenticated
+@is_admin
+def a_savecourse(request):
+    if request.method != "POST":
+        return HttpResponse("Method not Allowed..!")
+    try:
+        name = request.POST.get('name')
+        code = request.POST.get('code')
+        department = request.POST.get('department')
+        year = request.POST.get('year')
+        teacher_id = request.POST.get('teacher')
+        teacher = Teacher.objects.get(id=teacher_id)
+        course = Course.objects.create(
+            name=name,
+            code=code,
+            department=department,
+            year=year,
+            teacher=teacher
+        )
+        course.save()
+        messages.success(request, "Course added successfully")
+        return HttpResponseRedirect("/a_addcourse/")
+    except Exception as e:
+        messages.error(request, f"Failed to add course: {e}")
+        return HttpResponseRedirect("/a_addcourse/")
+
+@is_authenticated
+@is_admin
+def a_managecourse(request):
+    courses = Course.objects.all()
+    return render(request, 'admin/a_managecourse.html', {'courses': courses})
+
+@is_authenticated
+@is_admin
+def a_deletecourse(request, course_id):
+    try:
+        course = Course.objects.get(id=course_id)
+        course.delete()
+        messages.success(request, "Course deleted successfully")
+    except Exception as e:
+        messages.error(request, f"Failed to delete course: {e}")
+    return HttpResponseRedirect("/a_managecourse/")
+
+@is_authenticated
+@is_admin
+def a_addexam(request):
+    courses = Course.objects.all()
+    return render(request, 'admin/a_addexam.html', {'courses': courses})
+
+@is_authenticated
+@is_admin
+def a_saveexam(request):
+    if request.method != "POST":
+        return HttpResponse("Method not Allowed..!")
+    try:
+        course_id = request.POST.get('course')
+        exam_type = request.POST.get('exam_type')
+        exam_date = request.POST.get('exam_date')
+        start_time = request.POST.get('start_time')
+        end_time = request.POST.get('end_time')
+        venue = request.POST.get('venue')
+        course = Course.objects.get(id=course_id)
+        exam = ExamSchedule.objects.create(
+            course=course,
+            exam_type=exam_type,
+            exam_date=exam_date,
+            start_time=start_time,
+            end_time=end_time,
+            venue=venue
+        )
+        exam.save()
+        messages.success(request, "Exam schedule added successfully")
+        return HttpResponseRedirect("/a_addexam/")
+    except Exception as e:
+        messages.error(request, f"Failed to add exam: {e}")
+        return HttpResponseRedirect("/a_addexam/")
+
+@is_authenticated
+@is_admin
+def a_viewexam(request):
+    exams = ExamSchedule.objects.all().order_by('exam_date')
+    return render(request, 'admin/a_viewexam.html', {'exams': exams})
+
+@is_authenticated
+@is_admin
+def a_deleteexam(request, exam_id):
+    try:
+        exam = ExamSchedule.objects.get(id=exam_id)
+        exam.delete()
+        messages.success(request, "Exam deleted successfully")
+    except Exception as e:
+        messages.error(request, f"Failed to delete exam: {e}")
+    return HttpResponseRedirect("/a_viewexam/")
+
+@is_authenticated
+@is_admin
+def a_addfee(request):
+    students = Student.objects.all()
+    return render(request, 'admin/a_addfee.html', {'students': students})
+
+@is_authenticated
+@is_admin
+def a_savefee(request):
+    if request.method != "POST":
+        return HttpResponse("Method not Allowed..!")
+    try:
+        student_id = request.POST.get('student')
+        semester = request.POST.get('semester')
+        amount_due = request.POST.get('amount_due')
+        amount_paid = request.POST.get('amount_paid')
+        status = request.POST.get('status')
+        due_date = request.POST.get('due_date')
+        student = Student.objects.get(id=student_id)
+        fee = FeeStatus.objects.create(
+            student=student,
+            semester=semester,
+            amount_due=amount_due,
+            amount_paid=amount_paid,
+            status=status,
+            due_date=due_date
+        )
+        fee.save()
+        messages.success(request, "Fee record added successfully")
+        return HttpResponseRedirect("/a_addfee/")
+    except Exception as e:
+        messages.error(request, f"Failed to add fee record: {e}")
+        return HttpResponseRedirect("/a_addfee/")
+
+@is_authenticated
+@is_admin
+def a_viewfee(request):
+    fees = FeeStatus.objects.all().order_by('student', 'semester')
+    return render(request, 'admin/a_viewfee.html', {'fees': fees})
+
+@is_authenticated
+@is_admin
+def a_viewattendance(request):
+    courses = Course.objects.all()
+    selected_course = request.GET.get('course')
+    attendance = None
+    if selected_course:
+        attendance = Attendance.objects.filter(
+            course_id=selected_course
+        ).order_by('date', 'student')
+    return render(request, 'admin/a_viewattendance.html', {
+        'courses': courses,
+        'attendance': attendance,
+        'selected_course': selected_course
+    })
+
+@is_authenticated
+@is_admin
+def a_viewmarks(request):
+    courses = Course.objects.all()
+    selected_course = request.GET.get('course')
+    marks = None
+    if selected_course:
+        marks = InternalMarks.objects.filter(
+            course_id=selected_course
+        ).order_by('student', 'exam_type')
+    return render(request, 'admin/a_viewmarks.html', {
+        'courses': courses,
+        'marks': marks,
+        'selected_course': selected_course
+    })
 
 @is_authenticated
 @is_admin

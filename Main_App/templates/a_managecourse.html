@@ -1,0 +1,60 @@
+{% extends 'admin/a_base.html' %}
+{% block content %}
+<main class="content">
+    <div class="container-fluid p-0">
+        <h1 class="h3 mb-3">Manage Courses</h1>
+        <div class="col-12">
+            {% if messages %}
+                <div class="alert alert-primary alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <div class="alert-message">
+                        <strong>
+                        {% for message in messages %}{{message}}{% endfor %}
+                        </strong>
+                    </div>
+                </div>
+            {% endif %}
+            <div class="card">
+                <div class="table-responsive">
+                    <table class="table table-striped mb-0">
+                        <thead>
+                            <tr>
+                                <th>Code</th>
+                                <th>Name</th>
+                                <th>Department</th>
+                                <th>Year</th>
+                                <th>Teacher</th>
+                                <th>Created At</th>
+                                <th>Remove</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for course in courses %}
+                            <tr>
+                                <td>{{course.code}}</td>
+                                <td>{{course.name}}</td>
+                                <td>{{course.get_department_display}}</td>
+                                <td>{{course.year}}</td>
+                                <td>{{course.teacher.admin.first_name}} {{course.teacher.admin.last_name}}</td>
+                                <td>{{course.created_at|date:"d M Y"}}</td>
+                                <td>
+                                    <a href="/a_deletecourse/{{course.id}}/">
+                                        <i class="align-middle" data-feather="trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="7" class="text-center text-muted">No courses added yet.</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

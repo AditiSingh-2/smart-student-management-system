@@ -20,7 +20,7 @@ urlpatterns = [
     path('savestudent/', v_admin.savestudent),
     path('manageteacher/', v_admin.manageteacher, name='manageteacher'),
     path('deleteteacher/<int:teacher_id>/', v_admin.deleteteacher),
-    path('resetteacherpass/<int:teacher_id>/', v_admin.resetteacherpass),
+    path('resetteacherpass/<int:teacher_id>/',      v_admin.resetteacherpass),
     path('managestudent/', v_admin.managestudent, name='managestudent'),
     path('deletestudent/<int:student_id>/', v_admin.deletestudent),
     path('resetstudentpass/<int:student_id>/', v_admin.resetstudentpass),
@@ -40,6 +40,26 @@ urlpatterns = [
     path('a_savenotes/', v_admin.a_savenotes),
     path('a_viewnotes/', v_admin.a_viewnotes),
     path('a_removenotes/<int:notes_id>/', v_admin.a_removenotes),
+    # Course URLs
+    path('a_addcourse/', v_admin.a_addcourse),
+    path('a_savecourse/', v_admin.a_savecourse),
+    path('a_managecourse/', v_admin.a_managecourse),
+    path('a_deletecourse/<int:course_id>/', v_admin.a_deletecourse),
+
+    # Exam URLs
+    path('a_addexam/', v_admin.a_addexam),
+    path('a_saveexam/', v_admin.a_saveexam),
+    path('a_viewexam/', v_admin.a_viewexam),
+    path('a_deleteexam/<int:exam_id>/', v_admin.a_deleteexam),
+
+    # Fee URLs
+    path('a_addfee/', v_admin.a_addfee),
+    path('a_savefee/', v_admin.a_savefee),
+    path('a_viewfee/', v_admin.a_viewfee),
+
+    # Attendance & Marks
+    path('a_viewattendance/', v_admin.a_viewattendance),
+    path('a_viewmarks/', v_admin.a_viewmarks),
     path('prediction/', v_admin.prediction_page, name='prediction'),
 
     # Teacher URLs

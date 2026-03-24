@@ -1,0 +1,52 @@
+{% extends 'admin/a_base.html' %}
+{% block content %}
+<main class="content">
+    <div class="container-fluid p-0">
+        <h1 class="h3 mb-3">Fee Status</h1>
+        <div class="col-12">
+            <div class="card">
+                <div class="table-responsive">
+                    <table class="table table-striped mb-0">
+                        <thead>
+                            <tr>
+                                <th>Student</th>
+                                <th>Roll Number</th>
+                                <th>Semester</th>
+                                <th>Amount Due</th>
+                                <th>Amount Paid</th>
+                                <th>Due Date</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for fee in fees %}
+                            <tr>
+                                <td>{{fee.student.admin.first_name}} {{fee.student.admin.last_name}}</td>
+                                <td>{{fee.student.roll_number}}</td>
+                                <td>Semester {{fee.semester}}</td>
+                                <td>₹{{fee.amount_due}}</td>
+                                <td>₹{{fee.amount_paid}}</td>
+                                <td>{{fee.due_date|date:"d M Y"}}</td>
+                                <td>
+                                    {% if fee.status == 'Paid' %}
+                                        <span class="badge badge-success">Paid ✅</span>
+                                    {% elif fee.status == 'Pending' %}
+                                        <span class="badge badge-danger">Pending ❌</span>
+                                    {% else %}
+                                        <span class="badge badge-warning">Partial ⚠️</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="7" class="text-center text-muted">No fee records found.</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

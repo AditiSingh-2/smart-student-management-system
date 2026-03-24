@@ -1,0 +1,78 @@
+{% extends 'admin/a_base.html' %}
+{% block content %}
+<main class="content">
+    <div class="container-fluid p-0">
+        <h1 class="h3 mb-3">Add Fee Record</h1>
+        <div class="row">
+            <div class="col-md-12">
+                {% if messages %}
+                    <div class="alert alert-primary alert-dismissible" role="alert">
+                        <button type="button" class="close" data-dismiss="alert">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <div class="alert-message">
+                            <strong>
+                            {% for message in messages %}{{message}}{% endfor %}
+                            </strong>
+                        </div>
+                    </div>
+                {% endif %}
+                <div class="card">
+                    <div class="card-body">
+                        <form action="/a_savefee/" method="POST">
+                        {% csrf_token %}
+                            <div class="mb-3">
+                                <label class="form-label">Student</label>
+                                <select class="form-control" name="student" required>
+                                    <option value="" hidden>--Select Student--</option>
+                                    {% for student in students %}
+                                    <option value="{{student.id}}">{{student.admin.first_name}} {{student.admin.last_name}} - {{student.roll_number}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Semester</label>
+                                <select class="form-control" name="semester" required>
+                                    <option value="" hidden>--Select--</option>
+                                    <option value="1">Semester 1</option>
+                                    <option value="2">Semester 2</option>
+                                    <option value="3">Semester 3</option>
+                                    <option value="4">Semester 4</option>
+                                    <option value="5">Semester 5</option>
+                                    <option value="6">Semester 6</option>
+                                    <option value="7">Semester 7</option>
+                                    <option value="8">Semester 8</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Amount Due (₹)</label>
+                                <input type="number" class="form-control" placeholder="e.g. 50000" name="amount_due" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Amount Paid (₹)</label>
+                                <input type="number" class="form-control" placeholder="e.g. 25000" name="amount_paid" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Status</label>
+                                <select class="form-control" name="status" required>
+                                    <option value="" hidden>--Select--</option>
+                                    <option value="Paid">Paid</option>
+                                    <option value="Pending">Pending</option>
+                                    <option value="Partial">Partial</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Due Date</label>
+                                <input type="date" class="form-control" name="due_date" required>
+                            </div>
+                            <div class="mb-3">
+                                <button type="submit" class="form-control btn btn-primary">Add Fee Record</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

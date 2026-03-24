@@ -1,0 +1,67 @@
+{% extends 'admin/a_base.html' %}
+{% block content %}
+<main class="content">
+    <div class="container-fluid p-0">
+        <h1 class="h3 mb-3">View Attendance</h1>
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <form method="GET" action="/a_viewattendance/">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <select class="form-control" name="course" required>
+                                    <option value="" hidden>--Select Course--</option>
+                                    {% for course in courses %}
+                                    <option value="{{course.id}}" {% if selected_course == course.id|stringformat:"s" %}selected{% endif %}>
+                                        {{course.code}} - {{course.name}}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <button type="submit" class="btn btn-primary w-100">View</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            {% if attendance %}
+            <div class="card mt-3">
+                <div class="table-responsive">
+                    <table class="table table-striped mb-0">
+                        <thead>
+                            <tr>
+                                <th>Student</th>
+                                <th>Roll Number</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for record in attendance %}
+                            <tr>
+                                <td>{{record.student.admin.first_name}} {{record.student.admin.last_name}}</td>
+                                <td>{{record.student.roll_number}}</td>
+                                <td>{{record.date|date:"d M Y"}}</td>
+                                <td>
+                                    {% if record.is_present %}
+                                        <span class="badge badge-success">Present ✅</span>
+                                    {% else %}
+                                        <span class="badge badge-danger">Absent ❌</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="4" class="text-center text-muted">No attendance records found.</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</main>
+{% endblock %}
