@@ -11,7 +11,6 @@ from django.conf import settings
 from Main_App.models import MyUser, Notes, Notification, Result, Teacher, Student, Course, ExamSchedule, FeeStatus, Attendance, InternalMarks
 
 from Main_App.restrictions import is_admin, is_authenticated
-from Main_App.models import MyUser, Notes, Notification, Result, Teacher, Student, Course
 
 # Load ML model safely
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
