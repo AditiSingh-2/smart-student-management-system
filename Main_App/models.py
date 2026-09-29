@@ -156,6 +156,13 @@ class Notes(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.TextField()
 
+class StudentEmailToken(models.Model):
+    student = models.OneToOneField(Student, on_delete=models.CASCADE)
+    token_data = models.TextField()  # stores Gmail OAuth token as JSON
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    objects = models.Manager()
+
 @receiver(post_save, sender=MyUser)
 def user_create(sender, instance, created, **kwargs):
     if created:

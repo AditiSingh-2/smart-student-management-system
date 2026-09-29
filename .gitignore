@@ -8,3 +8,6 @@ db.sqlite3
 media
 staticfiles
 venv/
+credentials.json
+token.json
+.env

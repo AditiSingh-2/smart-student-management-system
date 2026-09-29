@@ -102,6 +102,11 @@ urlpatterns = [
     path('s_viewexams/', v_student.s_viewexams),              # ← new
     path('s_viewfees/', v_student.s_viewfees),                # ← new
     path('s_viewtimetable/', v_student.s_viewtimetable),      # ← new
+    
+    # Email URLs
+    path('s_connect_gmail/', v_student.s_connect_gmail),
+    path('gmail_callback/', v_student.gmail_callback),
+    path('s_emails/', v_student.s_emails),
 ]
 
 if settings.DEBUG:

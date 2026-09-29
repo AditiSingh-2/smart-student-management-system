@@ -1,42 +1,519 @@
-{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-   
-    <link rel="stylesheet" type="text/css" href="{% static 'Main_App/css/mycss.css' %}" >
-    <title>Login</title>
+    <title>Smart Student Management System</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            min-height: 100vh;
+            background: #0f0c29;
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            overflow: hidden;
+        }
+
+        /* Animated background blobs */
+        .blob {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.15;
+            animation: blobMove 8s ease-in-out infinite alternate;
+            pointer-events: none;
+        }
+        .blob-1 { width: 500px; height: 500px; background: #6c63ff; top: -100px; left: -100px; animation-delay: 0s; }
+        .blob-2 { width: 400px; height: 400px; background: #f64f59; bottom: -80px; right: -80px; animation-delay: -3s; }
+        .blob-3 { width: 300px; height: 300px; background: #43e97b; top: 50%; left: 50%; transform: translate(-50%,-50%); animation-delay: -5s; }
+
+        @keyframes blobMove {
+            0% { transform: scale(1) translate(0, 0); }
+            100% { transform: scale(1.2) translate(30px, -30px); }
+        }
+
+        /* Floating particles */
+        .particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
+        .particle {
+            position: absolute;
+            width: 3px; height: 3px;
+            background: rgba(255,255,255,0.4);
+            border-radius: 50%;
+            animation: float linear infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100px) rotate(720deg); opacity: 0; }
+        }
+
+        /* Main card */
+        .login-wrapper {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 440px;
+            padding: 20px;
+        }
+
+        .login-card {
+            background: rgba(255, 255, 255, 0.07);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 24px;
+            padding: 48px 40px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1);
+            animation: cardIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+        }
+
+        @keyframes cardIn {
+            from { opacity: 0; transform: translateY(40px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        /* Logo */
+        .logo-area {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .logo-icon {
+            width: 64px; height: 64px;
+            background: linear-gradient(135deg, #6c63ff, #3ecf8e);
+            border-radius: 18px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+            box-shadow: 0 8px 24px rgba(108, 99, 255, 0.4);
+            animation: iconPulse 3s ease-in-out infinite;
+        }
+
+        @keyframes iconPulse {
+            0%, 100% { box-shadow: 0 8px 24px rgba(108, 99, 255, 0.4); }
+            50% { box-shadow: 0 8px 40px rgba(108, 99, 255, 0.7); }
+        }
+
+        .logo-icon svg { width: 32px; height: 32px; fill: white; }
+
+        .logo-area h1 {
+            font-size: 22px;
+            font-weight: 700;
+            color: white;
+            letter-spacing: -0.3px;
+        }
+
+        .logo-area p {
+            font-size: 13px;
+            color: rgba(255,255,255,0.5);
+            margin-top: 4px;
+        }
+
+        /* Form */
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: rgba(255,255,255,0.6);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 8px;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255,255,255,0.4);
+            pointer-events: none;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 14px 14px 14px 44px;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 12px;
+            color: white;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .form-control::placeholder { color: rgba(255,255,255,0.3); }
+
+        .form-control:focus {
+            background: rgba(255,255,255,0.12);
+            border-color: rgba(108, 99, 255, 0.8);
+            box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.2);
+        }
+
+        /* Password toggle */
+        .toggle-password {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: rgba(255,255,255,0.4);
+            padding: 4px;
+            transition: color 0.2s;
+        }
+        .toggle-password:hover { color: rgba(255,255,255,0.8); }
+
+        /* Password strength */
+        .strength-bar {
+            margin-top: 8px;
+            height: 4px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .strength-fill {
+            height: 100%;
+            border-radius: 4px;
+            width: 0%;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .strength-label {
+            font-size: 11px;
+            margin-top: 4px;
+            transition: color 0.3s;
+            min-height: 16px;
+        }
+
+        /* Messages */
+        .alert {
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-size: 13px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .alert-danger {
+            background: rgba(244, 67, 54, 0.15);
+            border: 1px solid rgba(244, 67, 54, 0.3);
+            color: #ff8a80;
+        }
+
+        /* Submit button */
+        .btn-login {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #6c63ff 0%, #3ecf8e 100%);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            letter-spacing: 0.3px;
+            margin-top: 8px;
+        }
+
+        .btn-login::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn-login:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(108,99,255,0.4); }
+        .btn-login:hover::before { left: 100%; }
+        .btn-login:active { transform: translateY(0); }
+
+        /* Loading state */
+        .btn-login.loading { pointer-events: none; opacity: 0.8; }
+        .btn-login.loading .btn-text { opacity: 0; }
+        .btn-login.loading::after {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 20px; height: 20px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin { to { transform: translate(-50%, -50%) rotate(360deg); } }
+
+        /* Divider */
+        .divider {
+            text-align: center;
+            margin: 24px 0;
+            position: relative;
+        }
+
+        .divider::before {
+            content: '';
+            position: absolute;
+            top: 50%; left: 0;
+            width: 100%; height: 1px;
+            background: rgba(255,255,255,0.1);
+        }
+
+        .divider span {
+            position: relative;
+            background: transparent;
+            padding: 0 12px;
+            font-size: 12px;
+            color: rgba(255,255,255,0.4);
+        }
+
+        /* Role badges */
+        .role-badges {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+        }
+
+        .role-badge {
+            flex: 1;
+            padding: 10px 8px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 12px;
+            color: rgba(255,255,255,0.5);
+        }
+
+        .role-badge:hover {
+            background: rgba(108,99,255,0.2);
+            border-color: rgba(108,99,255,0.4);
+            color: white;
+        }
+
+        .role-badge .role-icon { font-size: 18px; display: block; margin-bottom: 4px; }
+
+        /* Footer */
+        .card-footer {
+            text-align: center;
+            margin-top: 24px;
+            font-size: 12px;
+            color: rgba(255,255,255,0.3);
+        }
+
+        /* Shake animation for errors */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20% { transform: translateX(-8px); }
+            40% { transform: translateX(8px); }
+            60% { transform: translateX(-4px); }
+            80% { transform: translateX(4px); }
+        }
+
+        .shake { animation: shake 0.5s ease; }
+    </style>
 </head>
 <body>
-<div class="wrapper">
-  <div id="formContent">
-    <!-- Tabs Titles -->
-<div id="formHeader">
-    <!-- Icon -->
-    <div class="fadeIn first"><h3><strong> Student Management</strong></h3>
-    </div> 
+
+<!-- Background blobs -->
+<div class="blob blob-1"></div>
+<div class="blob blob-2"></div>
+<div class="blob blob-3"></div>
+
+<!-- Floating particles -->
+<div class="particles" id="particles"></div>
+
+<div class="login-wrapper">
+    <div class="login-card" id="loginCard">
+
+        <!-- Logo -->
+        <div class="logo-area">
+            <div class="logo-icon">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zM5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z"/>
+                </svg>
+            </div>
+            <h1>Smart SMS</h1>
+            <p>Student Management System</p>
+        </div>
+
+        <!-- Messages -->
+        {% if messages %}
+        <div class="alert alert-danger" id="errorAlert">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+            {% for message in messages %}{{ message }}{% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- Form -->
+        <form action="/loginuser" method="POST" id="loginForm">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label>Email Address</label>
+                <div class="input-wrapper">
+                    <div class="input-icon">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                    </div>
+                    <input type="email" class="form-control" name="email" placeholder="you@college.edu" required autocomplete="email">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Password</label>
+                <div class="input-wrapper">
+                    <div class="input-icon">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1s3.1 1.39 3.1 3.1v2z"/></svg>
+                    </div>
+                    <input type="password" class="form-control" name="password" id="passwordInput" placeholder="Enter your password" required autocomplete="current-password">
+                    <button type="button" class="toggle-password" id="togglePass" aria-label="Toggle password">
+                        <svg id="eyeIcon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+                    </button>
+                </div>
+                <div class="strength-bar"><div class="strength-fill" id="strengthFill"></div></div>
+                <div class="strength-label" id="strengthLabel" style="color: rgba(255,255,255,0.4);"></div>
+            </div>
+
+            <button type="submit" class="btn-login" id="submitBtn">
+                <span class="btn-text">Sign In</span>
+            </button>
+        </form>
+
+        <div class="divider"><span>Login as</span></div>
+
+        <div class="role-badges">
+            <div class="role-badge" onclick="fillDemo('admin')">
+                <span class="role-icon">🛡️</span>Admin
+            </div>
+            <div class="role-badge" onclick="fillDemo('teacher')">
+                <span class="role-icon">📚</span>Teacher
+            </div>
+            <div class="role-badge" onclick="fillDemo('student')">
+                <span class="role-icon">🎓</span>Student
+            </div>
+        </div>
+
+        <div class="card-footer">
+            Smart Student Management System &copy; 2026
+        </div>
+    </div>
 </div>
-<h1></h1>
-    {% if messages %}
-    {% for message in messages %}
-    <div id="error" Class="fadeIn first"> {{message}} </div>
-    {% endfor %}
-    {% endif %}
-   
-    <!-- Login Form -->
-    <form action="/loginuser" method='POST'>
-    {% csrf_token %}
-      <input type="email" id="email" class="fadeIn second" name="email" placeholder="email" required>
-      <input type="password" id="password" class="fadeIn third" name="password" placeholder="password" required>
-      <input type="submit" class="fadeIn fourth" value="Log In">
-    </form>
-    
-  </div>
-</div>
-     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<script>
+// Particles
+(function() {
+    const container = document.getElementById('particles');
+    for (let i = 0; i < 25; i++) {
+        const p = document.createElement('div');
+        p.className = 'particle';
+        p.style.cssText = `
+            left: ${Math.random() * 100}%;
+            width: ${Math.random() * 3 + 1}px;
+            height: ${Math.random() * 3 + 1}px;
+            animation-duration: ${Math.random() * 15 + 10}s;
+            animation-delay: ${Math.random() * 10}s;
+            opacity: ${Math.random() * 0.5 + 0.1};
+        `;
+        container.appendChild(p);
+    }
+})();
+
+// Password toggle
+document.getElementById('togglePass').addEventListener('click', function() {
+    const input = document.getElementById('passwordInput');
+    const icon = document.getElementById('eyeIcon');
+    if (input.type === 'password') {
+        input.type = 'text';
+        icon.innerHTML = '<path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.83l2.92 2.92c1.51-1.26 2.7-2.89 3.43-4.75-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z"/>';
+    } else {
+        input.type = 'password';
+        icon.innerHTML = '<path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>';
+    }
+});
+
+// Password strength
+document.getElementById('passwordInput').addEventListener('input', function() {
+    const val = this.value;
+    const fill = document.getElementById('strengthFill');
+    const label = document.getElementById('strengthLabel');
+    let strength = 0;
+    let text = '';
+    let color = '';
+
+    if (val.length === 0) { fill.style.width = '0%'; label.textContent = ''; return; }
+    if (val.length >= 8) strength++;
+    if (/[A-Z]/.test(val)) strength++;
+    if (/[0-9]/.test(val)) strength++;
+    if (/[^A-Za-z0-9]/.test(val)) strength++;
+
+    const configs = [
+        { w: '25%', color: '#f44336', text: 'Weak' },
+        { w: '50%', color: '#ff9800', text: 'Fair' },
+        { w: '75%', color: '#2196F3', text: 'Good' },
+        { w: '100%', color: '#4CAF50', text: 'Strong' },
+    ];
+
+    const cfg = configs[Math.min(strength - 1, 3)];
+    fill.style.width = cfg.w;
+    fill.style.background = cfg.color;
+    label.style.color = cfg.color;
+    label.textContent = cfg.text + ' password';
+});
+
+// Form submit loading state
+document.getElementById('loginForm').addEventListener('submit', function() {
+    const btn = document.getElementById('submitBtn');
+    btn.classList.add('loading');
+});
+
+// Shake on error
+{% if messages %}
+document.addEventListener('DOMContentLoaded', function() {
+    const card = document.getElementById('loginCard');
+    card.classList.add('shake');
+    setTimeout(() => card.classList.remove('shake'), 600);
+});
+{% endif %}
+
+// Demo role hints (remove in production if you don't want this)
+function fillDemo(role) {
+    const emailInput = document.querySelector('input[name="email"]');
+    const hints = {
+        admin: 'admin@college.edu',
+        teacher: 'teacher@college.edu',
+        student: 'student@college.edu'
+    };
+    emailInput.value = hints[role];
+    emailInput.focus();
+}
+</script>
+
 </body>
 </html>

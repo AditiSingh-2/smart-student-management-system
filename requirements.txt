@@ -1,3 +1,9 @@
+google-auth
+google-auth-oauthlib
+google-auth-httplib2
+google-api-python-client
+anthropic
+python-dotenv
 Django==3.2.6
 psycopg2-binary
 sqlparse==0.4.1
