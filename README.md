@@ -1,58 +1,55 @@
- **<h2 align="center">Student Management Site</h2>**
-<p align="center">
-Made with Django and ❤️...
-</p>
-<!--
-**<h2 align="center">  🚀<a href="https://student-management-site.herokuapp.com/loginpage/" target='_blank'> Click here to try live demo.. </a></h2>**
+# Smart Student Management System
 
-- login using following credentials
-    - *Admin* ( admin@gmail.com - admin )
-    - *Teacher* ( teacher@gmail.com - Teacher@100 )
-    - *Student* ( student@gmail.com - Student@100 )
+A university-level student management system with AI-powered email classification.
 
-</p>
+## Features
+- Role-based access (Admin, Teacher, Student)
+- Attendance tracking with warnings
+- Internal marks and exam schedule
+- Fee status management
+- Smart email classification (AI + rule-based)
+- Gmail integration via OAuth 2.0
+- CI/CD pipeline with GitHub Actions
 
-<hr>
--->
-<p align="center">
-    <a href="https://github.com/ursmaheshj/Student_Management/issues/new/choose" target="blank">Report Bug</a>
-    ·
-    <a href="https://github.com/ursmaheshj/Student_Management/issues/new/choose" target="blank">Request feature</a>
-    ·
-    <a href="https://github.com/ursmaheshj/Student_Management/issues/new/choose" target="blank">Initiate Idea</a>
-</p>
-<hr>
+## Tech Stack
+- Backend: Django 3.2.6, Python 3.9
+- Database: SQLite
+- Frontend: Bootstrap, AdminLTE
+- AI: Claude API (Anthropic)
+- Email: Gmail API (Google OAuth 2.0)
 
-## 🛠️ Installation Steps 
+## Setup Instructions
 
- > How to download and install :
-- To start you should atleast have python and django installed.
-- clone this repo using : git clone https://github.com/ursmaheshj/Student_Management.git
-- create virtual environment and install packages (pip install -r requirements.txt)
-- run migrate command (python manage.py migrate)
-- run collectstatic command (python manage.py collectstatic)
-- after database creation create one superuser (please give email also).
-- now after login with admin you can add teachers and students.
+### 1. Clone the repo
+git clone https://github.com/AditiSingh-2/smart-student-management-system
+cd smart-student-management-system
 
-## 🧐 Features
-- Userfriendly design
-- Simple and Elegant UI
-- Provided with Admin, Teacher and Student portfolios
-- Default Authentication
+### 2. Create virtual environment
+python -m venv venv
+venv\Scripts\activate  # Windows
+source venv/bin/activate  # Mac/Linux
 
-## 💻 Built with
-- <a href="https://www.djangoproject.com/" target="blank">Django</a>
-- <a href="https://adminlte.io/" target="blank">Adminlte</a>
-- <a href="https://getbootstrap.com/" target="blank">Bootstrap</a>
-- <a href="https://www.heroku.com/home" target="blank">Heroku</a>
+### 3. Install dependencies
+pip install -r requirements.txt
 
-## 🍰 Contributing
+### 4. Environment variables
+Create a .env file in root:
+CLAUDE_API_KEY=your_claude_api_key_here
 
-Please contribute using [GitHub Flow](https://guides.github.com/introduction/flow); Create a branch, add commits, and [open a pull request](https://github.com/ursmaheshj/Student_Management/compare).
+### 5. Gmail API Setup (optional)
+- Go to https://console.cloud.google.com
+- Create project and enable Gmail API
+- Download credentials.json and place in root folder
+- See docs for full OAuth setup
 
-## 🙏 Support
-Dont hesitate to [fork](https://github.com/login?return_to=%2Fursmaheshj%2FStudent_Management) this repository and give a [star](https://github.com/login?return_to=%2Fursmaheshj%2FStudent_Management) if you like it..
-trigger
-trigger3
+### 6. Run migrations
+python manage.py migrate
 
-<hr>
+### 7. Create superuser
+python manage.py createsuperuser
+
+### 8. Run server
+python manage.py runserver
+
+## Note
+credentials.json, token.json, and .env are not included for security.
